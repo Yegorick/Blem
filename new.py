@@ -14,35 +14,14 @@ num2 = 1
 tovar_spis = []
 time_spis1 = []
 time_spis2 = []
-tovar1 = 0
-tovar2 = 1
-tovari = []
+index = 0
 
 
-#def proizvodstvo(num, tovar):
-#    ost = potrebnosti[day_num][tovar]
-#    for i in range(10000):
-#        main = potrebnosti[day_num][tovar]
-#        x = randint(0, 24)
-#        if num != 1:
-#            second = (main + 100) - (proizvoditelnost[tovar] * x)
-#            if second > -proizvoditelnost[tovar]:
-#                if second < ost:
-#                    ost = second
-#                    time = x + 1
-#        else:
-#            second = main - (proizvoditelnost[tovar] * x)
-#            if second > -proizvoditelnost[tovar]:
-#                if second < ost:
-#                    ost = second
-#                    time = x
-#    return (ost, time)
-
-def proizvodstvo(potrebnost, num):
+def proizvodstvo(potrebnost, num, index):
     ost = potrebnost
-    proizv = proizvoditelnost[potrebnosti[day_num].index(potrebnost)]
+    proizv = proizvoditelnost[index]
+    main = potrebnost
     for i in range(10000):
-        main = potrebnost
         x = randint(0, 24)
         if num != 1:
             second = (main + 100) - (proizv * x)
@@ -52,7 +31,6 @@ def proizvodstvo(potrebnost, num):
                     time = x + 1
         else:
             second = main - (proizv * x)
-            
             if second > -proizv:
                 if second < ost:
                     ost = second
@@ -61,52 +39,32 @@ def proizvodstvo(potrebnost, num):
 
 
 for day in potrebnosti:
-    #print(day)
     for i in day:
         if i == 0:
-            tovar1 += 1
-            tovar2 += 1
+            index += 1
             continue
         else:
-            if tovar1 > 9 or tovar2 > 9:
-                break
             if num1 == 1:
-                time_spis1.append(proizvodstvo(i, num1)[1])
-                tovar1 += 1
+                time_spis1.append(proizvodstvo(i, num1, index)[1])
                 num1 += 1
-                tovar_spis.append(potrebnosti[day_num].index(i) + 1)
-                tovari.append('tovar1')
+                tovar_spis.append(index + 1)
+                index += 1
                 continue
             if sum(time_spis1) == sum(time_spis2):
-                print('!!!!!')
-                time_spis1.append(proizvodstvo(i, num1)[1])
-                tovar1 += 1
+                time_spis1.append(proizvodstvo(i, num1, index)[1])
                 num1 += 1
             elif sum(time_spis1) < sum(time_spis2):
-                print(1)
-                if tovari[-1] == 'tovar1':
-                    tovar1 += 1
-                else:
-                    tovar1 = tovar2 + 1
-                time_spis1.append(proizvodstvo(i, num1)[1])
-                tovar1 += 1
+                time_spis1.append(proizvodstvo(i, num1, index)[1])
                 num1 += 1
-                tovari.append('tovar1')
             else:
-                print(2)
-                if tovari[-1] == 'tovar2':
-                    tovar2 += 1
-                else:
-                    tovar2 = tovar1 + 1
-                time_spis2.append(proizvodstvo(i, num2)[1])
-                tovar2 += 1
+                time_spis2.append(proizvodstvo(i, num2, index)[1])
                 num2 += 1
-                tovari.append('tovar2')
-        tovar_spis.append(potrebnosti[day_num].index(i) + 1)
-    tovar1 = 0
-    tovar2 = 0
+        tovar_spis.append(index + 1)
+        index += 1
+    index = 0
     day_num += 1
 
 print(tovar_spis)
 print(time_spis1)
 print(time_spis2)
+print(max(sum(time_spis1), sum(time_spis2)) / 24)

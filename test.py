@@ -4,4 +4,8 @@ day_4 = [14015, 16250, 0, 0, 0, 0, 5400, 3800, 0, 0]
 day_5 = [8200, 8200, 10100, 0, 0, 8200, 8200, 8200, 0, 3200]
 potrebnosti = [day_3, day_4, day_5]
 day_num = 0
-print(potrebnosti[day_num].index(22500))
+for day in potrebnosti:
+    for i in day:
+        if i == 0:
+            continue
+        print(i)
