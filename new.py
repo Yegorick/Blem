@@ -1,3 +1,4 @@
+from operator import rshift
 from random import randint
 
 
@@ -18,6 +19,7 @@ day_28 = [12100, 25100, 13150, 0, 0, 0, 6500, 0, 0, 0]
 day_30 = [8200, 22700, 22300, 0, 0, 20300, 8200, 20400, 0, 3200]
 day_n = [46150, 16250, 41950, 9980, 0, 24400, 0, 42500, 9900, 9800]
 potrebnosti = [day_3, day_4, day_5, day_6, day_10, day_12, day_13, day_15, day_20, day_23, day_25, day_26, day_28, day_30, day_n]
+ostatki = [25670, 33830, 16400, 3550, 3600, 24550, 7800, 22780, 3600, 5260]
 
 day_num = 0
 num1 = 1
@@ -55,20 +57,37 @@ for day in potrebnosti:
             index += 1
             continue
         else:
+            if ostatki[index] - day[index] > 0:
+                ostatki.insert(index, ostatki.pop(index) - day[index])
+                tovar_spis.append(index + 1)
+                index += 1
+                continue
+            else:
+                day[index] -= ostatki[index]
+                ostatki[index] = 0
             if num1 == 1:
-                time_spis1.append(proizvodstvo(i, num1, index)[1])
+                result = proizvodstvo(i, num1, index)
+                time_spis1.append(result[1])
+                print(result)
+                ostatki[index] = result[0]
                 num1 += 1
                 tovar_spis.append(index + 1)
                 index += 1
                 continue
             if sum(time_spis1) == sum(time_spis2):
-                time_spis1.append(proizvodstvo(i, num1, index)[1])
+                result = proizvodstvo(i, num1, index)
+                time_spis1.append(result[1])
+                ostatki[index] = result[0]
                 num1 += 1
             elif sum(time_spis1) < sum(time_spis2):
-                time_spis1.append(proizvodstvo(i, num1, index)[1])
+                result = proizvodstvo(i, num1, index)
+                time_spis1.append(result[1])
+                ostatki[index] = result[0]
                 num1 += 1
             else:
-                time_spis2.append(proizvodstvo(i, num2, index)[1])
+                result = proizvodstvo(i, num2, index)
+                time_spis2.append(result[1])
+                ostatki[index] = result[0]
                 num2 += 1
         tovar_spis.append(index + 1)
         index += 1
@@ -79,3 +98,4 @@ print(tovar_spis)
 print(time_spis1)
 print(time_spis2)
 print(max(sum(time_spis1), sum(time_spis2)) / 24)
+print(ostatki)
