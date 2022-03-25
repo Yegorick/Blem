@@ -1,4 +1,3 @@
-from operator import rshift
 from random import randint
 
 
@@ -34,8 +33,9 @@ def proizvodstvo(potrebnost, num, index):
     ost = potrebnost
     proizv = proizvoditelnost[index]
     main = potrebnost
+    time = 0
     for i in range(10000):
-        x = randint(0, 24)
+        x = randint(0, 100)
         if num != 1:
             second = (main + 100) - (proizv * x)
             if second > -proizv:
@@ -68,8 +68,8 @@ for day in potrebnosti:
             if num1 == 1:
                 result = proizvodstvo(i, num1, index)
                 time_spis1.append(result[1])
-                print(result)
-                ostatki[index] = result[0]
+                #print(result)
+                #ostatki[index] = result[0]
                 num1 += 1
                 tovar_spis.append(index + 1)
                 index += 1
@@ -77,17 +77,19 @@ for day in potrebnosti:
             if sum(time_spis1) == sum(time_spis2):
                 result = proizvodstvo(i, num1, index)
                 time_spis1.append(result[1])
-                ostatki[index] = result[0]
+                #ostatki[index] = result[0]
                 num1 += 1
             elif sum(time_spis1) < sum(time_spis2):
                 result = proizvodstvo(i, num1, index)
                 time_spis1.append(result[1])
-                ostatki[index] = result[0]
+                #ostatki[index] = result[0]
+                if result[1] == 32:
+                    print(index, day)
                 num1 += 1
             else:
                 result = proizvodstvo(i, num2, index)
                 time_spis2.append(result[1])
-                ostatki[index] = result[0]
+                #ostatki[index] = result[0]
                 num2 += 1
         tovar_spis.append(index + 1)
         index += 1
@@ -97,5 +99,5 @@ for day in potrebnosti:
 print(tovar_spis)
 print(time_spis1)
 print(time_spis2)
-print(max(sum(time_spis1), sum(time_spis2)) / 24)
+print(int(max(sum(time_spis1), sum(time_spis2)) / 24) + 1)
 print(ostatki)
